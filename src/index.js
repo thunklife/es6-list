@@ -2,10 +2,10 @@
  * A simple cons/linked list with some extras for fun
  */
 
-//+ [a] 
+//+ [a]
 const emptyList = Object.freeze({});
 
-//+ a -> [a] -> [a] 
+//+ a -> [a] -> [a]
 const cons = (x) => (xs) => ({head: x, tail: xs});
 
 //+ [a] -> a
