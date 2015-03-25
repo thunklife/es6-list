@@ -36,4 +36,10 @@ describe('List', function(){
     var sum = foldr((x,y) => x + y)(0)(list);
     sum.should.equal(6);
   });
+
+  it('can be mapped', function(){
+    var doubles = map((x) => x * 2)(list);
+    var x = head(doubles);
+    x.should.equal(6);
+  });
 });

@@ -56,4 +56,12 @@ describe("List", function () {
     })(0)(list);
     sum.should.equal(6);
   });
+
+  it("can be mapped", function () {
+    var doubles = map(function (x) {
+      return x * 2;
+    })(list);
+    var x = head(doubles);
+    x.should.equal(6);
+  });
 });

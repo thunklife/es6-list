@@ -68,12 +68,17 @@ exports.head = head;
 //+ (b -> a -> b) -> b -> [a] -> [b]
 var foldr = function (f) {
   return function (a) {
-    return function (_ref) {
-      var head = _ref.head;
-      var tail = _ref.tail;
+    return function (xs) {
+      return go(xs);
 
-      if (!head) return a;
-      return foldr(f)(f(a, head))(tail);
+      function go(_ref) {
+        var head = _ref.head;
+        var tail = _ref.tail;
+
+        if (!head) {
+          return a;
+        }return f(go(tail), head);
+      }
     };
   };
 };
@@ -82,13 +87,15 @@ exports.foldr = foldr;
 //+ [a] -> [a]
 var tail = function (xs) {
   return foldr(function (a, x) {
-    return a.push(x) && a;
+    return a.unshift(x) && a;
   })([])(xs.tail);
 };
 
 exports.tail = tail;
 //+ (a->b) -> [a] -> [b]
-var map = foldr(function (a, x) {
-  return cons(x)(a);
-})(emptyList);
+var map = function (f) {
+  return foldr(function (a, x) {
+    return cons(f(x))(a);
+  })(emptyList);
+};
 exports.map = map;

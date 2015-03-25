@@ -34,13 +34,17 @@ export const cons = (x) => (xs) => list(x,xs);
 export const head = ({head}) => head;
 
 //+ (b -> a -> b) -> b -> [a] -> [b]
-export const foldr = (f) => (a) => ({head, tail}) => {
-  if(!head) return a;
-  return foldr(f)(f(a,head))(tail);
+export const foldr = (f) => (a) => (xs) => {
+  return go(xs);
+
+  function go ({head, tail}){
+    if(!head) return a;
+    return f(go(tail), head);
+  }
 };
 
 //+ [a] -> [a]
-export const tail = (xs) => foldr((a,x) => a.push(x) && a)([])(xs.tail);
+export const tail = (xs) => foldr((a,x) => a.unshift(x) && a)([])(xs.tail);
 
 //+ (a->b) -> [a] -> [b]
-export const map = foldr((a,x) => cons(x)(a))(emptyList);
+export const map = (f) => foldr((a,x) => cons(f(x))(a))(emptyList);
