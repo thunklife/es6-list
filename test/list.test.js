@@ -1,4 +1,4 @@
-import {cons, emptyList, head, tail, foldr, map} from '../../dist/index';
+import {cons, emptyList, head, tail, foldr, map, toArray} from '../../dist/index';
 import {expect} from 'chai';
 
 var list;
@@ -20,16 +20,22 @@ describe('list', function(){
       var x = head(list);
       expect(x).to.equal(3);
     });
-
   });
 
   describe('tail', function(){
     it('returns the tail of the list', function(){
       var xs = tail(list);
+      expect(head(xs)).to.equal(2);
+    });
+  });
 
-      expect(xs.length).to.equal(2);
-      expect(xs[0]).to.equal(2);
-      expect(xs[1]).to.equal(1);
+  describe('toArray', function(){
+    it('returns an array of all elements in order', function(){
+      var arr = toArray(list);
+      expect(arr.length).to.equal(3);
+      expect(arr[0]).to.equal(3);
+      expect(arr[1]).to.equal(2);
+      expect(arr[2]).to.equal(1);
     });
   });
 });
@@ -63,16 +69,27 @@ describe('iterable', function(){
 });
 
 describe('foldable', function(){
-  it('can be folded', function(){
-    var sum = foldr((x,y) => x + y)(0)(list);
-    expect(sum).to.equal(6);
+  it('returns the accumulator for an empty list', function(){
+    var acc = foldr((x) => x)(0)(emptyList);
+    expect(acc).to.equal(0);
   });
-});
 
-describe('functor', function(){
-  it('can be mapped', function(){
-    var doubles = map((x) => x * 2)(list);
-    var x = head(doubles);
-    expect(x).to.equal(6);
+  it('applies f once for a singleton list', function(){
+    var counter = 0;
+    foldr((_) => counter++)(0)(cons(1)(emptyList));
+
+    expect(counter).to.equal(1);
+  });
+
+  it('applies f for each item in the list', function(){
+    var counter = 0;
+    foldr((_) => counter++)(0)(list);
+
+    expect(counter).to.equal(3);
+  });
+
+  it('folds a list', function(){
+    var arr = foldr((x,a) => a.unshift(x) && a)([])(list);
+    expect(arr.length).to.equal(3);
   });
 });

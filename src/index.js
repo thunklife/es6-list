@@ -11,40 +11,42 @@ const list = (head = null, tail = null) => {
         next = this.tail;
       return {
         next(){
-          if(!current || !current.head) return {value: undefined, done: true};
-          if(current){
-            var val = current.head;
-            current = next;
-            next = next.tail;
-            return {value: val, done: false};
-          }
+          if (!current || !current.head) return {value: undefined, done: true};
+          var val = current.head;
+          current = next;
+          next = next.tail;
+          return {value: val, done: false};
         }
       };
     }
   };
 };
 
-//+ [a]
+//+ List a
 export const emptyList = Object.freeze(list());
 
-//+ a -> [a] -> [a]
-export const cons = (x) => (xs) => list(x,xs);
+//+ a -> List a -> List a
+export const cons = (x) => (xs) => list(x, xs);
 
-//+ [a] -> a
+//+ List a -> a
 export const head = ({head}) => head;
 
-//+ (b -> a -> b) -> b -> [a] -> [b]
+//+ (a -> b -> b) -> b -> List a -> b
 export const foldr = (f) => (a) => (xs) => {
   return go(xs);
 
   function go ({head, tail}){
-    if(!head) return a;
-    return f(go(tail), head);
+    if (head == undefined) return a;
+    if (tail == undefined) return f(a, head);
+    return f(head, go(tail));
   }
 };
 
-//+ [a] -> [a]
-export const tail = (xs) => foldr((a,x) => a.unshift(x) && a)([])(xs.tail);
+//+ List a -> List a
+export const tail = ({head, tail}) => tail;
 
-//+ (a->b) -> [a] -> [b]
-export const map = (f) => foldr((a,x) => cons(f(x))(a))(emptyList);
+//+ List a -> [a]
+export const toArray = foldr((x, a) => (a.unshift(x) && a))([]);
+
+//+ (a -> b) -> List a -> List b
+export const map = (f) => foldr((x, a) => cons(f(x))(a))(emptyList);

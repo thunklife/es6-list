@@ -32,12 +32,10 @@ var list = function () {
           return _nextWrapper;
         })(function () {
           if (!current || !current.head) return { value: undefined, done: true };
-          if (current) {
-            var val = current.head;
-            current = next;
-            next = next.tail;
-            return { value: val, done: false };
-          }
+          var val = current.head;
+          current = next;
+          next = next.tail;
+          return { value: val, done: false };
         })
       };
     };
@@ -46,11 +44,11 @@ var list = function () {
   })();
 };
 
-//+ [a]
+//+ List a
 var emptyList = Object.freeze(list());
 
 exports.emptyList = emptyList;
-//+ a -> [a] -> [a]
+//+ a -> List a -> List a
 var cons = function (x) {
   return function (xs) {
     return list(x, xs);
@@ -58,14 +56,14 @@ var cons = function (x) {
 };
 
 exports.cons = cons;
-//+ [a] -> a
+//+ List a -> a
 var head = function (_ref) {
   var head = _ref.head;
   return head;
 };
 
 exports.head = head;
-//+ (b -> a -> b) -> b -> [a] -> [b]
+//+ (a -> b -> b) -> b -> List a -> b
 var foldr = function (f) {
   return function (a) {
     return function (xs) {
@@ -75,26 +73,34 @@ var foldr = function (f) {
         var head = _ref.head;
         var tail = _ref.tail;
 
-        if (!head) {
+        if (head == undefined) {
           return a;
-        }return f(go(tail), head);
+        }if (tail == undefined) {
+          return f(a, head);
+        }return f(head, go(tail));
       }
     };
   };
 };
 
 exports.foldr = foldr;
-//+ [a] -> [a]
-var tail = function (xs) {
-  return foldr(function (a, x) {
-    return a.unshift(x) && a;
-  })([])(xs.tail);
+//+ List a -> List a
+var tail = function (_ref) {
+  var head = _ref.head;
+  var tail = _ref.tail;
+  return tail;
 };
 
 exports.tail = tail;
-//+ (a->b) -> [a] -> [b]
+//+ List a -> [a]
+var toArray = foldr(function (x, a) {
+  return a.unshift(x) && a;
+})([]);
+
+exports.toArray = toArray;
+//+ (a -> b) -> List a -> List b
 var map = function (f) {
-  return foldr(function (a, x) {
+  return foldr(function (x, a) {
     return cons(f(x))(a);
   })(emptyList);
 };
