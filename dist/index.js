@@ -63,6 +63,14 @@ var head = function (_ref) {
 };
 
 exports.head = head;
+//+ List a -> List a
+var tail = function (_ref) {
+  var head = _ref.head;
+  var tail = _ref.tail;
+  return tail;
+};
+
+exports.tail = tail;
 //+ (a -> b -> b) -> b -> List a -> b
 var foldr = function (f) {
   return function (a) {
@@ -84,14 +92,6 @@ var foldr = function (f) {
 };
 
 exports.foldr = foldr;
-//+ List a -> List a
-var tail = function (_ref) {
-  var head = _ref.head;
-  var tail = _ref.tail;
-  return tail;
-};
-
-exports.tail = tail;
 //+ List a -> [a]
 var toArray = foldr(function (x, a) {
   return a.unshift(x) && a;
