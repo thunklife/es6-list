@@ -49,6 +49,17 @@ describe('iterable', function(){
       expect(a).to.be.undefined;
     });
   });
+
+  describe('for of loop', function(){
+    it('iterates through a list', function(){
+      var iterations = 0;
+      for(var item of list){
+       iterations++;
+      }
+
+      expect(iterations).to.equal(3);
+    });
+  });
 });
 
 describe('foldable', function(){

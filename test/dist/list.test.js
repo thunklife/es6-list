@@ -67,6 +67,38 @@ describe("iterable", function () {
       expect(a).to.be.undefined;
     });
   });
+
+  describe("for of loop", function () {
+    it("iterates through a list", function () {
+      var iterations = 0;
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = list[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var item = _step.value;
+
+          iterations++;
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator["return"]) {
+            _iterator["return"]();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      expect(iterations).to.equal(3);
+    });
+  });
 });
 
 describe("foldable", function () {
