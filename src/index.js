@@ -11,13 +11,13 @@ const list = (head = null, tail = null) => {
         next = this.tail;
       return {
         next(){
+          if(!current || !current.head) return {value: undefined, done: true};
           if(current){
             var val = current.head;
             current = next;
             next = next.tail;
             return {value: val, done: false};
           }
-          return {value: undefined, done: true};
         }
       };
     }

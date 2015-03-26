@@ -1,45 +1,67 @@
 import {cons, emptyList, head, tail, foldr, map} from '../../dist/index';
-import {should} from 'chai';
-should = should(); //because should is a function and I don't know how to make import do this for me.
+import {expect} from 'chai';
 
-describe('List', function(){
-  var list;
-  beforeEach(function(){
-    list = cons(3)(cons(2)(cons(1)(emptyList)));
+var list;
+
+beforeEach(function(){
+  list = cons(3)(cons(2)(cons(1)(emptyList)));
+});
+
+describe('list', function(){
+  //general list functions
+  describe('cons', function(){
+    it('constructs a list', function(){
+      expect(list.head).to.equal(3);
+    });
+  });
+  
+  describe('head', function(){
+    it('returns the head of the list', function(){
+      var x = head(list);
+      expect(x).to.equal(3);
+    });
+
   });
 
-  it('can cons a list', function(){
-    list.head.should.equal(3);
+  describe('tail', function(){
+    it('returns the tail of the list', function(){
+      var xs = tail(list);
+
+      expect(xs.length).to.equal(2);
+      expect(xs[0]).to.equal(2);
+      expect(xs[1]).to.equal(1);
+    });
   });
+});
 
-  it('returns the head of the list', function(){
-    var x = head(list);
-    x.should.equal(3);
+
+describe('iterable', function(){
+  describe('destructuring', function(){
+    it('returns elements when non-empty', function(){
+      var [a,b,c] = list;
+      expect(a).to.equal(3);
+      expect(b).to.equal(2);
+      expect(c).to.equal(1);
+    });
+
+    it('returns undefined when empty', function(){
+      var [a] = emptyList;
+      expect(a).to.be.undefined;
+    });
   });
+});
 
-  it('returns the tail of the list', function(){
-    var xs = tail(list);
-
-    xs.length.should.equal(2);
-    xs[0].should.equal(2);
-    xs[1].should.equal(1);
-  });
-
-  it('can be deconstructed', function(){
-    var [a,b,c] = list;
-    a.should.equal(3);
-    b.should.equal(2);
-    c.should.equal(1);
-  });
-
+describe('foldable', function(){
   it('can be folded', function(){
     var sum = foldr((x,y) => x + y)(0)(list);
-    sum.should.equal(6);
+    expect(sum).to.equal(6);
   });
+});
 
+describe('functor', function(){
   it('can be mapped', function(){
     var doubles = map((x) => x * 2)(list);
     var x = head(doubles);
-    x.should.equal(6);
+    expect(x).to.equal(6);
   });
 });

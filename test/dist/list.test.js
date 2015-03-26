@@ -11,57 +11,79 @@ var tail = _distIndex.tail;
 var foldr = _distIndex.foldr;
 var map = _distIndex.map;
 
-var should = require("chai").should;
+var expect = require("chai").expect;
 
-should = should(); //because should is a function and I don't know how to make import do this for me.
+var list;
 
-describe("List", function () {
-  var list;
-  beforeEach(function () {
-    list = cons(3)(cons(2)(cons(1)(emptyList)));
+beforeEach(function () {
+  list = cons(3)(cons(2)(cons(1)(emptyList)));
+});
+
+describe("list", function () {
+  //general list functions
+  describe("cons", function () {
+    it("constructs a list", function () {
+      expect(list.head).to.equal(3);
+    });
   });
 
-  it("can cons a list", function () {
-    list.head.should.equal(3);
+  describe("head", function () {
+    it("returns the head of the list", function () {
+      var x = head(list);
+      expect(x).to.equal(3);
+    });
   });
 
-  it("returns the head of the list", function () {
-    var x = head(list);
-    x.should.equal(3);
+  describe("tail", function () {
+    it("returns the tail of the list", function () {
+      var xs = tail(list);
+
+      expect(xs.length).to.equal(2);
+      expect(xs[0]).to.equal(2);
+      expect(xs[1]).to.equal(1);
+    });
   });
+});
 
-  it("returns the tail of the list", function () {
-    var xs = tail(list);
+describe("iterable", function () {
+  describe("destructuring", function () {
+    it("returns elements when non-empty", function () {
+      var _list = _slicedToArray(list, 3);
 
-    xs.length.should.equal(2);
-    xs[0].should.equal(2);
-    xs[1].should.equal(1);
+      var a = _list[0];
+      var b = _list[1];
+      var c = _list[2];
+
+      expect(a).to.equal(3);
+      expect(b).to.equal(2);
+      expect(c).to.equal(1);
+    });
+
+    it("returns undefined when empty", function () {
+      var _emptyList = _slicedToArray(emptyList, 1);
+
+      var a = _emptyList[0];
+
+      expect(a).to.be.undefined;
+    });
   });
+});
 
-  it("can be deconstructed", function () {
-    var _list = _slicedToArray(list, 3);
-
-    var a = _list[0];
-    var b = _list[1];
-    var c = _list[2];
-
-    a.should.equal(3);
-    b.should.equal(2);
-    c.should.equal(1);
-  });
-
+describe("foldable", function () {
   it("can be folded", function () {
     var sum = foldr(function (x, y) {
       return x + y;
     })(0)(list);
-    sum.should.equal(6);
+    expect(sum).to.equal(6);
   });
+});
 
+describe("functor", function () {
   it("can be mapped", function () {
     var doubles = map(function (x) {
       return x * 2;
     })(list);
     var x = head(doubles);
-    x.should.equal(6);
+    expect(x).to.equal(6);
   });
 });
