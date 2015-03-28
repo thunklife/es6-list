@@ -1,16 +1,17 @@
 "use strict";
 
+var _toArray = function (arr) { return Array.isArray(arr) ? arr : Array.from(arr); };
+
 var _slicedToArray = function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { var _arr = []; for (var _iterator = arr[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) { _arr.push(_step.value); if (i && _arr.length === i) break; } return _arr; } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } };
+
+var _toConsumableArray = function (arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } };
 
 var _distIndex = require("../../dist/index");
 
 var cons = _distIndex.cons;
 var emptyList = _distIndex.emptyList;
-var head = _distIndex.head;
-var tail = _distIndex.tail;
 var foldr = _distIndex.foldr;
 var map = _distIndex.map;
-var toArray = _distIndex.toArray;
 
 var expect = require("chai").expect;
 
@@ -25,30 +26,6 @@ describe("list", function () {
   describe("cons", function () {
     it("constructs a list", function () {
       expect(list.head).to.equal(3);
-    });
-  });
-
-  describe("head", function () {
-    it("returns the head of the list", function () {
-      var x = head(list);
-      expect(x).to.equal(3);
-    });
-  });
-
-  describe("tail", function () {
-    it("returns the tail of the list", function () {
-      var xs = tail(list);
-      expect(head(xs)).to.equal(2);
-    });
-  });
-
-  describe("toArray", function () {
-    it("returns an array of all elements in order", function () {
-      var arr = toArray(list);
-      expect(arr.length).to.equal(3);
-      expect(arr[0]).to.equal(3);
-      expect(arr[1]).to.equal(2);
-      expect(arr[2]).to.equal(1);
     });
   });
 });
@@ -73,6 +50,35 @@ describe("iterable", function () {
       var a = _emptyList[0];
 
       expect(a).to.be.undefined;
+    });
+
+    it("can be used with rest", function () {
+      var _list = _toArray(list);
+
+      var x = _list[0];
+
+      var xs = _list.slice(1);
+
+      expect(x).to.equal(3);
+      expect(xs.length).to.equal(2);
+    });
+
+    it("can use object destructuring", function () {
+      var head = list.head;
+      var tail = list.tail;
+
+      expect(head).to.equal(3);
+      expect(tail).to.not.be.undefined;
+    });
+  });
+
+  describe("spread", function () {
+    it("can be spread into an array", function () {
+      var xs = [].concat(_toConsumableArray(list), [4, 5]);
+      expect(xs.length).to.equal(5);
+      expect(xs[0]).to.equal(3);
+      expect(xs[1]).to.equal(2);
+      expect(xs[2]).to.equal(1);
     });
   });
 

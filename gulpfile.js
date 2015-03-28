@@ -2,16 +2,14 @@ var gulp = require('gulp'),
   babel = require('gulp-babel'),
   mocha = require('gulp-mocha');
 
+require('babel/polyfill');
+
 gulp.task('default', ['build-src', 'build-test', 'run-test']);
 
 gulp.task('build-src', function(){
   gulp
   .src('src/index.js')
-  .pipe(babel(
-    {
-     optional: ['runtime']
-  }
-  ))
+  .pipe(babel())
   .pipe(gulp.dest('dist'));
 });
 
@@ -28,7 +26,7 @@ gulp.task('run-test', function(){
   .pipe(mocha({reporter: 'nyan'}));
 });
 
-var w = gulp.watch(['src/*.js', 'test/*.js'], ['default']);
+var w = gulp.watch(['src/*.js', 'test/*.test.js'], ['default']);
 w.on('change', function(e){
   console.log('File ' + e.path + 'was ' + e.type + ' running tasks...');
 });

@@ -12,6 +12,7 @@
     "babel": "^4.7.16",
     "babel-runtime": "^5.0.0-beta1",
     "chai": "^2.1.2",
+    "core-js": "^0.7.2",
     "gulp": "^3.8.11",
     "gulp-babel": "^4.0.0",
     "gulp-mocha": "^2.0.0",

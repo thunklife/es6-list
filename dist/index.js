@@ -1,7 +1,5 @@
 "use strict";
 
-var _core = require("babel-runtime/core-js")["default"];
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -18,7 +16,7 @@ var list = function () {
       head: head,
       tail: tail };
 
-    _ref[_core.Symbol.iterator] = function () {
+    _ref[Symbol.iterator] = function () {
       var current = this,
           next = this.tail;
       return {
@@ -47,7 +45,7 @@ var list = function () {
 };
 
 //+ List a
-var emptyList = _core.Object.freeze(list());
+var emptyList = Object.freeze(list());
 
 exports.emptyList = emptyList;
 //+ a -> List a -> List a
@@ -58,21 +56,6 @@ var cons = function (x) {
 };
 
 exports.cons = cons;
-//+ List a -> a
-var head = function (_ref) {
-  var head = _ref.head;
-  return head;
-};
-
-exports.head = head;
-//+ List a -> List a
-var tail = function (_ref) {
-  var head = _ref.head;
-  var tail = _ref.tail;
-  return tail;
-};
-
-exports.tail = tail;
 //+ (a -> b -> b) -> b -> List a -> b
 var foldr = function (f) {
   return function (a) {
@@ -94,12 +77,6 @@ var foldr = function (f) {
 };
 
 exports.foldr = foldr;
-//+ List a -> [a]
-var toArray = foldr(function (x, a) {
-  return a.unshift(x) && a;
-})([]);
-
-exports.toArray = toArray;
 //+ (a -> b) -> List a -> List b
 var map = function (f) {
   return foldr(function (x, a) {

@@ -28,12 +28,6 @@ export const emptyList = Object.freeze(list());
 //+ a -> List a -> List a
 export const cons = (x) => (xs) => list(x, xs);
 
-//+ List a -> a
-export const head = ({head}) => head;
-
-//+ List a -> List a
-export const tail = ({head, tail}) => tail;
-
 //+ (a -> b -> b) -> b -> List a -> b
 export const foldr = (f) => (a) => (xs) => {
   return go(xs);
@@ -44,10 +38,6 @@ export const foldr = (f) => (a) => (xs) => {
     return f(head, go(tail));
   }
 };
-
-
-//+ List a -> [a]
-export const toArray = foldr((x, a) => (a.unshift(x) && a))([]);
 
 //+ (a -> b) -> List a -> List b
 export const map = (f) => foldr((x, a) => cons(f(x))(a))(emptyList);

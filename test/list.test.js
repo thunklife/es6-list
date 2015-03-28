@@ -1,4 +1,4 @@
-import {cons, emptyList, head, tail, foldr, map, toArray} from '../../dist/index';
+import {cons, emptyList, foldr, map} from '../../dist/index';
 import {expect} from 'chai';
 
 var list;
@@ -12,30 +12,6 @@ describe('list', function(){
   describe('cons', function(){
     it('constructs a list', function(){
       expect(list.head).to.equal(3);
-    });
-  });
-  
-  describe('head', function(){
-    it('returns the head of the list', function(){
-      var x = head(list);
-      expect(x).to.equal(3);
-    });
-  });
-
-  describe('tail', function(){
-    it('returns the tail of the list', function(){
-      var xs = tail(list);
-      expect(head(xs)).to.equal(2);
-    });
-  });
-
-  describe('toArray', function(){
-    it('returns an array of all elements in order', function(){
-      var arr = toArray(list);
-      expect(arr.length).to.equal(3);
-      expect(arr[0]).to.equal(3);
-      expect(arr[1]).to.equal(2);
-      expect(arr[2]).to.equal(1);
     });
   });
 });
@@ -53,6 +29,28 @@ describe('iterable', function(){
     it('returns undefined when empty', function(){
       var [a] = emptyList;
       expect(a).to.be.undefined;
+    });
+
+    it('can be used with rest', function(){
+      var [x,...xs] = list;
+      expect(x).to.equal(3);
+      expect(xs.length).to.equal(2);
+    })
+
+    it('can use object destructuring', function(){
+      var {head, tail} = list;
+      expect(head).to.equal(3);
+      expect(tail).to.not.be.undefined;
+    });
+  });
+
+  describe('spread', function(){
+    it('can be spread into an array', function(){
+      var xs = [...list, 4, 5];
+      expect(xs.length).to.equal(5);
+      expect(xs[0]).to.equal(3);
+      expect(xs[1]).to.equal(2);
+      expect(xs[2]).to.equal(1);
     });
   });
 
