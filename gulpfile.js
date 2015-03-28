@@ -7,7 +7,11 @@ gulp.task('default', ['build-src', 'build-test', 'run-test']);
 gulp.task('build-src', function(){
   gulp
   .src('src/index.js')
-  .pipe(babel())
+  .pipe(babel(
+    {
+     optional: ['runtime']
+  }
+  ))
   .pipe(gulp.dest('dist'));
 });
 
@@ -24,7 +28,7 @@ gulp.task('run-test', function(){
   .pipe(mocha({reporter: 'nyan'}));
 });
 
-var w = gulp.watch('**/*.js', ['default']);
+var w = gulp.watch(['src/*.js', 'test/*.js'], ['default']);
 w.on('change', function(e){
   console.log('File ' + e.path + 'was ' + e.type + ' running tasks...');
 });

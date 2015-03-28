@@ -6,18 +6,15 @@ const list = (head = null, tail = null) => {
   return {
     head,
     tail,
-    [Symbol.iterator](){
-      let current = this,
-        next = this.tail;
-      return {
-        next(){
-          if (!current || !current.head) return {value: undefined, done: true};
-          var val = current.head;
-          current = next;
-          next = next.tail;
-          return {value: val, done: false};
-        }
-      };
+    [Symbol.iterator]: function* (){
+      var current = this;
+      var next = this.tail;
+      while(current && current.head){
+        var val = current.head;
+        current = next;
+        next = next.tail;
+        yield val;
+      }
     }
   };
 };
