@@ -2,8 +2,6 @@
 
 var _core = require("babel-runtime/core-js")["default"];
 
-var _regeneratorRuntime = require("babel-runtime/regenerator")["default"];
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -19,39 +17,31 @@ var list = function () {
     var _ref = {
       head: head,
       tail: tail };
-    _ref[_core.Symbol.iterator] = _regeneratorRuntime.mark(function callee$2$0() {
-      var _this = this;
 
-      var current, next, val;
-      return _regeneratorRuntime.wrap(function callee$2$0$(context$3$0) {
-        while (1) switch (context$3$0.prev = context$3$0.next) {
-          case 0:
-            current = _this;
-            next = _this.tail;
+    _ref[_core.Symbol.iterator] = function () {
+      var current = this,
+          next = this.tail;
+      return {
+        next: (function (_next) {
+          var _nextWrapper = function next() {
+            return _next.apply(this, arguments);
+          };
 
-          case 2:
-            if (!(current && current.head)) {
-              context$3$0.next = 10;
-              break;
-            }
+          _nextWrapper.toString = function () {
+            return _next.toString();
+          };
 
-            val = current.head;
+          return _nextWrapper;
+        })(function () {
+          if (!current || !current.head) return { value: undefined, done: true };
+          var val = current.head;
+          current = next;
+          next = next.tail;
+          return { value: val, done: false };
+        })
+      };
+    };
 
-            current = next;
-            next = next.tail;
-            context$3$0.next = 8;
-            return val;
-
-          case 8:
-            context$3$0.next = 2;
-            break;
-
-          case 10:
-          case "end":
-            return context$3$0.stop();
-        }
-      }, callee$2$0, this);
-    });
     return _ref;
   })();
 };
