@@ -113,6 +113,51 @@ describe("iterable", function () {
       expect(iterations).to.equal(3);
     });
   });
+
+  describe("keys", function () {
+    it("returns an iterator", function () {
+      var iter = list.keys();
+      expect(iter.next).to.not.be.undefined;
+    });
+
+    it("returns numeric keys", function () {
+      var iter = list.keys();
+
+      var _iter = _toArray(iter);
+
+      var xs = _iter;
+
+      xs.forEach(function (x, i) {
+        expect(i).to.equal(x);
+      });
+    });
+  });
+
+  describe("entries", function () {
+    it("returns an iterator", function () {
+      var iter = list.entries();
+      expect(iter.next).to.not.be.undefined;
+    });
+
+    it("returns a pair when iterating", function () {
+      var val = list.entries().next().value;
+      expect(val.length).to.equal(2);
+      expect(val[0]).to.equal(0);
+      expect(val[1]).to.equal(3);
+    });
+  });
+
+  describe("values", function () {
+    it("returns an iterator", function () {
+      var iter = list.values();
+      expect(iter.next).to.not.be.undefined;
+    });
+
+    it("returns only values", function () {
+      var x = list.values().next().value;
+      expect(x).to.equal(3);
+    });
+  });
 });
 
 describe("foldable", function () {
