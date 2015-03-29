@@ -13,7 +13,7 @@ function iterate (f, xs) {
       current = next;
       next = current.tail;
     }
-  }
+  };
 }
 
 const list = (head = null, tail = null) => {
@@ -47,7 +47,3 @@ export const foldr = (f) => (a) => (xs) => {
 
 //+ (a -> b) -> List a -> List b
 export const map = (f) => foldr((x, a) => cons(f(x))(a))(emptyList);
-
-//+ List a -> Generator[[Number, a]]
-
-//+ List a -> Generator[a]

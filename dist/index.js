@@ -111,8 +111,4 @@ var map = function (f) {
     return cons(f(x))(a);
   })(emptyList);
 };
-
-//+ List a -> Generator[[Number, a]]
-
-//+ List a -> Generator[a]
 exports.map = map;
