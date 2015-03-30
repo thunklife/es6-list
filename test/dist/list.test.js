@@ -25,7 +25,11 @@ describe("list", function () {
   //general list functions
   describe("cons", function () {
     it("constructs a list", function () {
-      expect(list.head).to.equal(3);
+      var _list = _slicedToArray(list, 1);
+
+      var x = _list[0];
+
+      expect(x).to.equal(3);
     });
   });
 });

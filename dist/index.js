@@ -1,5 +1,7 @@
 "use strict";
 
+var _toArray = function (arr) { return Array.isArray(arr) ? arr : Array.from(arr); };
+
 var _defineProperty = function (obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); };
 
 Object.defineProperty(exports, "__esModule", {
@@ -47,29 +49,149 @@ var list = function () {
   var head = arguments[0] === undefined ? null : arguments[0];
   var tail = arguments[1] === undefined ? null : arguments[1];
 
-  var _list_ = { head: head, tail: tail };
-  return (function () {
-    var _ref = {
-      head: head,
-      tail: tail };
-    _ref[Symbol.iterator] = iterate(function (_, v) {
-      return v;
-    }, _list_);
+  var list = Object.create((function () {
+    var _Object$create = {};
+    _Object$create[Symbol.iterator] = regeneratorRuntime.mark(function callee$2$0() {
+      var _this = this;
 
-    _defineProperty(_ref, "keys", iterate(function (k, _) {
-      return k;
-    }, _list_));
+      var current, next;
+      return regeneratorRuntime.wrap(function callee$2$0$(context$3$0) {
+        while (1) switch (context$3$0.prev = context$3$0.next) {
+          case 0:
+            current = _this;
+            next = current.tail;
 
-    _defineProperty(_ref, "entries", iterate(function (k, v) {
-      return [k, v];
-    }, _list_));
+          case 2:
+            if (!(current && current.head)) {
+              context$3$0.next = 9;
+              break;
+            }
 
-    _defineProperty(_ref, "values", iterate(function (_, v) {
-      return v;
-    }, _list_));
+            context$3$0.next = 5;
+            return current.head;
 
-    return _ref;
-  })();
+          case 5:
+            current = next;
+            next = current.tail;
+            context$3$0.next = 2;
+            break;
+
+          case 9:
+          case "end":
+            return context$3$0.stop();
+        }
+      }, callee$2$0, this);
+    });
+
+    _defineProperty(_Object$create, "keys", regeneratorRuntime.mark(function keys() {
+      var _this = this;
+
+      var current, next, key;
+      return regeneratorRuntime.wrap(function keys$(context$3$0) {
+        while (1) switch (context$3$0.prev = context$3$0.next) {
+          case 0:
+            current = _this;
+            next = current.tail;
+            key = 0;
+
+          case 3:
+            if (!(current && current.head)) {
+              context$3$0.next = 11;
+              break;
+            }
+
+            context$3$0.next = 6;
+            return key;
+
+          case 6:
+            key++;
+            current = next;
+            next = current.tail;
+            context$3$0.next = 3;
+            break;
+
+          case 11:
+          case "end":
+            return context$3$0.stop();
+        }
+      }, keys, this);
+    }));
+
+    _defineProperty(_Object$create, "entries", regeneratorRuntime.mark(function entries() {
+      var _this = this;
+
+      var current, next, key;
+      return regeneratorRuntime.wrap(function entries$(context$3$0) {
+        while (1) switch (context$3$0.prev = context$3$0.next) {
+          case 0:
+            current = _this;
+            next = current.tail;
+            key = 0;
+
+          case 3:
+            if (!(current && current.head)) {
+              context$3$0.next = 11;
+              break;
+            }
+
+            context$3$0.next = 6;
+            return [key, current.head];
+
+          case 6:
+            key++;
+            current = next;
+            next = current.tail;
+            context$3$0.next = 3;
+            break;
+
+          case 11:
+          case "end":
+            return context$3$0.stop();
+        }
+      }, entries, this);
+    }));
+
+    _defineProperty(_Object$create, "values", regeneratorRuntime.mark(function values() {
+      var _this = this;
+
+      var current, next, key;
+      return regeneratorRuntime.wrap(function values$(context$3$0) {
+        while (1) switch (context$3$0.prev = context$3$0.next) {
+          case 0:
+            current = _this;
+            next = current.tail;
+            key = 0;
+
+          case 3:
+            if (!(current && current.head)) {
+              context$3$0.next = 11;
+              break;
+            }
+
+            context$3$0.next = 6;
+            return current.head;
+
+          case 6:
+            key++;
+            current = next;
+            next = current.tail;
+            context$3$0.next = 3;
+            break;
+
+          case 11:
+          case "end":
+            return context$3$0.stop();
+        }
+      }, values, this);
+    }));
+
+    return _Object$create;
+  })(), {
+    head: { writeable: false, enumerable: false, value: head },
+    tail: { writeable: false, enumerable: false, value: tail }
+  });
+
+  return list;
 };
 
 //+ List a
@@ -91,14 +213,17 @@ var foldr = function (f) {
       return go(xs);
 
       function go(_ref) {
-        var head = _ref.head;
-        var tail = _ref.tail;
+        var _ref2 = _toArray(_ref);
 
-        if (head == undefined) {
+        var x = _ref2[0];
+
+        var xs = _ref2.slice(1);
+
+        if (x == undefined) {
           return a;
-        }if (tail == undefined) {
-          return f(a, head);
-        }return f(head, go(tail));
+        }if (xs == undefined) {
+          return f(a, x);
+        }return f(x, go(xs));
       }
     };
   };
